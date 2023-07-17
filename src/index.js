@@ -9,11 +9,19 @@
 const numan = {
   name: 'Numan',
   meetings: [],
+  joinMeeting(meeting) {
+    meeting.attendees.push(this.name)
+    this.meetings.push(meeting)
+  },
 }
 
 const mich = {
   name: 'Mich',
   meetings: [],
+  joinMeeting(meeting) {
+    meeting.attendees.push(this.name)
+    this.meetings.push(meeting)
+  },
 }
 
 const numansMeeting = {
@@ -23,3 +31,17 @@ const numansMeeting = {
   description: 'This is a meeting for Numan',
   attendees: [],
 }
+
+const marvinsMeeting = {
+  name: 'Marvins Meeting',
+  date: '11/11/2023',
+  location: 'Frankurt',
+  description: 'This is a meeting for Marvin',
+  attendees: [],
+}
+
+mich.joinMeeting(numansMeeting)
+numan.joinMeeting(marvinsMeeting)
+
+// console.log('mich: ', mich)
+// console.log('numansMeeting: ', numansMeeting)
