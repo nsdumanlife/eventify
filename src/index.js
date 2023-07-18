@@ -6,6 +6,7 @@
 // User should be able to leave a meeting
 // User should be able to delete a meeting
 const User = require('./user')
+const chalk = require('chalk')
 
 const numan = new User('Numan')
 const mich = new User('Mich')
@@ -26,7 +27,19 @@ numan.leaveMeeting(marvinsMeeting)
 // console.log('numan: ', numan)
 // console.log('numansMeeting: ', numansMeeting)
 
-console.log(`User Numan should have name Numan ${numan.name === 'Numan'}`)
-console.log(`User Numan has ${numan.meetings.length} meetings ${numan.meetings.length === 1}`)
-console.log(`Mitch joins Marvins meeting at in Berlin ${numan.meetings[0].location === 'Berlin'}`)
-console.log(`User Marvin has ${marvin.meetings.length} meetings ${marvin.meetings.length === 1}`)
+console.log(`User Numan should have name Numan ${numan.name === 'Numan' ? chalk.blue(true) : chalk.red(false)}`)
+console.log(
+  `User Numan has ${numan.meetings.length} meetings ${
+    numan.meetings.length === 1 ? chalk.blue(true) : chalk.red(false)
+  }`
+)
+console.log(
+  `Mitch joins Marvins meeting at in Berlin ${
+    numan.meetings[0].location === 'Berlin' ? chalk.blue(true) : chalk.red(false)
+  }`
+)
+console.log(
+  `User Marvin has ${marvin.meetings.length} meetings ${
+    marvin.meetings.length === 1 ? chalk.blue(true) : chalk.red(false)
+  }`
+)
