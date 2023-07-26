@@ -27,6 +27,15 @@ class User {
     const indexOfMeeting = this.meetings.indexOf(meeting)
     this.meetings.splice(indexOfMeeting, 1) // check later?
   }
+
+  static create({ name }) {
+    const newUser = new User(name)
+
+    User.list.push(newUser)
+    return newUser
+  }
+
+  static list = []
 }
 
 module.exports = User
