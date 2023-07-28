@@ -4,7 +4,7 @@ const User = require('../user')
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-  res.send('respond with a resource')
+  res.send(User.list)
 })
 
 router.post('/', async function (req, res, next) {
