@@ -9,6 +9,8 @@ const axios = require('axios')
 const User = require('./user')
 const chalk = require('chalk')
 
+axios.defaults.baseURL = 'http://localhost:3000'
+
 async function main() {
   const numan = await axios.post('http://localhost:3000/users', { name: 'Numan' })
   console.log('numan: ', numan.data)
