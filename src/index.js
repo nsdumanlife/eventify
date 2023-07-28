@@ -12,13 +12,13 @@ const chalk = require('chalk')
 axios.defaults.baseURL = 'http://localhost:3000'
 
 async function main() {
-  const numan = await axios.post('http://localhost:3000/users', { name: 'Numan' })
+  const numan = await axios.post('/users', { name: 'Numan' })
   console.log('numan: ', numan.data)
 
-  const updatedNuman = await axios.put('http://localhost:3000/users/Numan', { name: 'Selman' })
+  const updatedNuman = await axios.put('/users/Numan', { name: 'Selman' })
   console.log('updatedNuman: ', updatedNuman.data)
 
-  const allUsers = await axios.get('http://localhost:3000/users')
+  const allUsers = await axios.get('/users')
 
   console.log('all users: ', allUsers.data)
 }
