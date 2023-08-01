@@ -25,7 +25,7 @@ class User {
     meeting.attendees.splice(indexOfUser, 1)
 
     const indexOfMeeting = this.meetings.indexOf(meeting)
-    this.meetings.splice(indexOfMeeting, 1) // check later?
+    this.meetings.splice(indexOfMeeting, 1)
   }
 
   static create({ name }) {
