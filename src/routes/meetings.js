@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const Meeting = require('../meeting')
-const User = require('../user')
+const Meeting = require('../models/meeting')
+const User = require('../models/user')
 
 // get all meetings
 router.get('/', function (req, res, next) {
