@@ -7,6 +7,12 @@ router.get('/', function (req, res, next) {
   res.send(User.list)
 })
 
+// Get user details by id
+router.get('/:id', function (req, res, next) {
+  const user = User.list.find(user => user.name === req.params.id)
+  res.send(user)
+})
+
 // Create a new user
 router.post('/', async function (req, res, next) {
   const user = User.create({ name: req.body.name })
