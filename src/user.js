@@ -8,7 +8,7 @@ class User {
   }
 
   createMeeting(name, date, location, description) {
-    const newMeeting = new Meeting(name, date, location, description)
+    const newMeeting = Meeting.create({ name, date, location, description })
     this.meetings.push(newMeeting)
     newMeeting.attendees.push(this.name)
 
