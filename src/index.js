@@ -6,21 +6,35 @@
 // User should be able to leave a meeting
 // User should be able to delete a meeting
 const axios = require('axios')
-const User = require('./user')
-const chalk = require('chalk')
 
 axios.defaults.baseURL = 'http://localhost:3000'
 
 async function main() {
+  // create users
   const numan = await axios.post('/users', { name: 'Numan' })
-  console.log('numan: ', numan.data)
+  const toprak = await axios.post('/users', { name: 'Toprak' })
+  const gizem = await axios.post('/users', { name: 'Gizem' })
 
+  // update user name Numan to Selman
   const updatedNuman = await axios.put('/users/Numan', { name: 'Selman' })
-  console.log('updatedNuman: ', updatedNuman.data)
 
-  const allUsers = await axios.get('/users')
+  const topraksMeeting = await axios.post('/meetings', {
+    creator: toprak.data,
+    name: 'TopraksMeeting',
+    date: '12/12/2023',
+    location: 'Berlin',
+    description: 'This is a meeting for Toprak',
+  })
 
-  console.log('all users: ', allUsers.data)
+  const gizemAttendsTopraksMeeting = await axios.post('/meetings/TopraksMeeting/attendees', {
+    user: 'Gizem',
+  })
+
+  const updatedNumanAttendsTopraksMeeting = await axios.post('/meetings/TopraksMeeting/attendees', {
+    user: 'Selman',
+  })
+
+  const updatedNumanLeavesTopraksMeeting = await axios.delete('/meetings/TopraksMeeting/attendees/Selman')
 }
 main()
 
