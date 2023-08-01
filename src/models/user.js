@@ -1,12 +1,17 @@
 const Meeting = require('./meeting')
+const mongoose = require('mongoose')
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  meetings: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Meeting',
+    },
+  ],
+})
 
 class User {
-  meetings = []
-
-  constructor(name) {
-    this.name = name
-  }
-
   createMeeting(name, date, location, description) {
     const newMeeting = Meeting.create({ name, date, location, description })
     this.meetings.push(newMeeting)
@@ -27,15 +32,6 @@ class User {
     const indexOfMeeting = this.meetings.indexOf(meeting)
     this.meetings.splice(indexOfMeeting, 1)
   }
-
-  static create({ name }) {
-    const newUser = new User(name)
-
-    User.list.push(newUser)
-    return newUser
-  }
-
-  static list = []
 }
 
-module.exports = User
+module.exports = mongoose.model('User', userSchema)
