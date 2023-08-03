@@ -1,45 +1,45 @@
 const express = require('express')
 const router = express.Router()
-const Meeting = require('../meeting')
-const User = require('../user')
+const Meeting = require('../models/meeting')
+const User = require('../models/user')
 
 // get all meetings
-router.get('/', function (req, res, next) {
-  res.send(Meeting.list)
+router.get('/', async function (req, res, next) {
+  res.send(await Meeting.find())
 })
 
 // create a new meeting
 router.post('/', async function (req, res, next) {
   const { creator, name, date, location, description } = req.body
-  const user = User.list.find(user => user.name === creator.name)
-  const newMeeting = user.createMeeting(name, date, location, description)
+  const user = await User.findById(req.body.creator)
+  const newMeeting = await user.createMeeting(name, date, location, description)
 
   res.send(newMeeting)
 })
 
 // get meeting details by id
-router.get('/:id', function (req, res, next) {
-  const meeting = Meeting.list.find(meeting => meeting.name === req.params.id)
+router.get('/:id', async function (req, res, next) {
+  const meeting = await Meeting.findById(req.params.id)
 
   res.send(meeting)
 })
 
 // attend a meeting
 router.post('/:id/attendees', async function (req, res, next) {
-  const meeting = Meeting.list.find(meeting => meeting.name === req.params.id)
-  const user = User.list.find(user => user.name === req.body.user)
+  const meeting = await Meeting.findById(req.params.id)
+  const user = await User.findById(req.body.attendee)
 
-  user.joinMeeting(meeting)
+  await user.joinMeeting(meeting)
 
   res.send(meeting)
 })
 
 // leave a meeting
 router.delete('/:meetingId/attendees/:attendeeId', async function (req, res, next) {
-  const meeting = Meeting.list.find(meeting => meeting.name === req.params.meetingId)
-  const user = User.list.find(user => user.name === req.params.attendeeId)
+  const meeting = await Meeting.findById(req.params.meetingId)
+  const user = await User.findById(req.params.attendeeId)
 
-  user.leaveMeeting(meeting)
+  await user.leaveMeeting(meeting)
 
   res.send(meeting)
 })

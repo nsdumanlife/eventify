@@ -16,25 +16,29 @@ async function main() {
   const gizem = await axios.post('/users', { name: 'Gizem' })
 
   // update user name Numan to Selman
-  const updatedNuman = await axios.put('/users/Numan', { name: 'Selman' })
+  const updatedNuman = await axios.put(`/users/${numan.data._id}`, { name: 'Selman' })
 
+  // create meeting
   const topraksMeeting = await axios.post('/meetings', {
-    creator: toprak.data,
+    creator: toprak.data._id,
     name: 'TopraksMeeting',
     date: '12/12/2023',
     location: 'Berlin',
     description: 'This is a meeting for Toprak',
   })
 
-  const gizemAttendsTopraksMeeting = await axios.post('/meetings/TopraksMeeting/attendees', {
-    user: 'Gizem',
+  // attend meeting
+  const gizemAttendsTopraksMeeting = await axios.post(`/meetings/${topraksMeeting.data._id}/attendees`, {
+    attendee: gizem.data._id,
+  })
+  const updatedNumanAttendsTopraksMeeting = await axios.post(`/meetings/${topraksMeeting.data._id}/attendees`, {
+    attendee: updatedNuman.data._id,
   })
 
-  const updatedNumanAttendsTopraksMeeting = await axios.post('/meetings/TopraksMeeting/attendees', {
-    user: 'Selman',
-  })
-
-  const updatedNumanLeavesTopraksMeeting = await axios.delete('/meetings/TopraksMeeting/attendees/Selman')
+  // leave meeting
+  const updatedNumanLeavesTopraksMeeting = await axios.delete(
+    `/meetings/${topraksMeeting.data._id}/attendees/${updatedNuman.data._id}`
+  )
 }
 main()
 
