@@ -17,7 +17,7 @@ router.get('/:id', async function (req, res, next) {
 
 // Create a new user
 router.post('/', async function (req, res, next) {
-  const user = User.create({ name: req.body.name })
+  const user = await User.create({ name: req.body.name })
   res.send(user)
 })
 
@@ -25,7 +25,7 @@ router.post('/', async function (req, res, next) {
 router.put('/:id', async function (req, res, next) {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, { name: req.body.name }, { new: true })
-    // user.name = req.body.name
+
     res.send(user)
   } catch (error) {
     res.status(404).send('User not found')

@@ -1,5 +1,6 @@
 const Meeting = require('./meeting')
 const mongoose = require('mongoose')
+const autopopulate = require('mongoose-autopopulate')
 
 const userSchema = new mongoose.Schema({
   name: String,
@@ -7,31 +8,40 @@ const userSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Meeting',
+      autopopulate: { maxDepth: 1 },
     },
   ],
 })
 
 class User {
-  createMeeting(name, date, location, description) {
-    const newMeeting = Meeting.create({ name, date, location, description })
+  async createMeeting(name, date, location, description) {
+    const newMeeting = await Meeting.create({ name, date, location, description })
     this.meetings.push(newMeeting)
-    newMeeting.attendees.push(this.name)
+    newMeeting.attendees.push(this)
+
+    await newMeeting.save()
+    await this.save()
 
     return newMeeting
   }
 
-  joinMeeting(meeting) {
-    meeting.attendees.push(this.name)
+  async joinMeeting(meeting) {
+    meeting.attendees.push(this)
     this.meetings.push(meeting)
+
+    await meeting.save()
+    await this.save()
   }
 
-  leaveMeeting(meeting) {
-    const indexOfUser = meeting.attendees.indexOf(this.name)
-    meeting.attendees.splice(indexOfUser, 1)
+  async leaveMeeting(meeting) {
+    meeting.attendees.pull(this)
+    this.meetings.pull(meeting)
 
-    const indexOfMeeting = this.meetings.indexOf(meeting)
-    this.meetings.splice(indexOfMeeting, 1)
+    await meeting.save()
+    await this.save()
   }
 }
 
+userSchema.plugin(autopopulate)
+userSchema.loadClass(User)
 module.exports = mongoose.model('User', userSchema)
