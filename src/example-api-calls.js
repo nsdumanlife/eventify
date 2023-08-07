@@ -20,7 +20,7 @@ async function main() {
 
   // create meeting
   const topraksMeeting = await axios.post('/meetings', {
-    creator: toprak.data._id,
+    creator: toprak.datma._id,
     name: 'TopraksMeeting',
     date: '12/12/2023',
     location: 'Berlin',
