@@ -10,11 +10,15 @@ router.get('/', async function (req, res, next) {
 
 // create a new meeting
 router.post('/', async function (req, res, next) {
-  const { creator, name, date, location, description } = req.body
-  const user = await User.findById(req.body.creator)
-  const newMeeting = await user.createMeeting(name, date, location, description)
+  try {
+    const { creator, name, date, location, description } = req.body
+    const user = await User.findById(req.body.creator)
+    const newMeeting = await user.createMeeting(name, date, location, description)
 
-  res.send(newMeeting)
+    res.send(newMeeting)
+  } catch (error) {
+    res.status(404).send(error.message)
+  }
 })
 
 // get meeting details by id
