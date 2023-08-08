@@ -3,7 +3,10 @@ const mongoose = require('mongoose')
 const autopopulate = require('mongoose-autopopulate')
 
 const userSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
   meetings: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -31,6 +34,8 @@ class User {
 
     await meeting.save()
     await this.save()
+
+    return meeting
   }
 
   async leaveMeeting(meeting) {
@@ -39,6 +44,8 @@ class User {
 
     await meeting.save()
     await this.save()
+
+    return meeting
   }
 }
 
