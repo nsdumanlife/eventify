@@ -2,18 +2,29 @@ services:
   api:
     image: api
     build:
-      context: .
+      context: backend
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
     env_file:
-      - .env
+      - ./backend/.env
     environment:
       - MONGODB_CONNECTION_STRING=mongodb://mongo:27017
     volumes:
-      - ./src:/app/src
+      - ./backend/src:/app/src
     depends_on:
       - mongo
+
+  frontend:
+    image: frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - '5173:5173'
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
 
   mongo:
     image: mongo

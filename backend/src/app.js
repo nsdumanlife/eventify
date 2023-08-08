@@ -9,8 +9,8 @@ const logger = require('morgan')
 require('./database-connection.js')
 
 const indexRouter = require('./routes/index')
-const usersRouter = require('./routes/users')
-const meetingsRouter = require('./routes/meetings')
+const usersRouter = require('./routes/users.js')
+const meetingsRouter = require('./routes/meetings.js')
 
 const app = express()
 
