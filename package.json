@@ -9,9 +9,9 @@
 		"dev": "nodemon ./bin/www",
 		"eslint:check": "npx eslint .",
 		"eslint:fix": "npx eslint --fix .",
-		"test": "jest",
-		"test:watch": "jest --watch",
-		"test:coverage": "jest --coverage --watch"
+		"test": "DOTENV_CONFIG_PATH=./.env.test.local jest --detectOpenHandles --forceExit",
+		"test:watch": "DOTENV_CONFIG_PATH=./.env.test.local jest --watch --coverage --detectOpenHandles --forceExit",
+		"test:coverage": "DOTENV_CONFIG_PATH=./.env.test.local jest --coverage --detectOpenHandles --forceExit"
 	},
 	"devDependencies": {
 		"eslint": "^8.19.0",
@@ -36,5 +36,13 @@
 		"mongoose-autopopulate": "^1.0.1",
 		"morgan": "^1.10.0",
 		"pug": "^3.0.2"
+	},
+	"jest": {
+		"setupFiles": [
+			"dotenv/config"
+		],
+		"setupFilesAfterEnv": [
+			"./tests/setup.js"
+		]
 	}
 }
