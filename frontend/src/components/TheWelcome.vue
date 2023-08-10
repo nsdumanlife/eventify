@@ -1,13 +1,22 @@
 <script setup>
 import WelcomeItem from './WelcomeItem.vue'
-import DocumentationIcon from './icons/IconDocumentation.vue'
-import ToolingIcon from './icons/IconTooling.vue'
-import EcosystemIcon from './icons/IconEcosystem.vue'
 import CommunityIcon from './icons/IconCommunity.vue'
+import DocumentationIcon from './icons/IconDocumentation.vue'
+import EcosystemIcon from './icons/IconEcosystem.vue'
 import SupportIcon from './icons/IconSupport.vue'
+import ToolingIcon from './icons/IconTooling.vue'
+
+import axios from 'axios'
+const { data: meetings } = await axios.get('http://localhost:3000/meetings')
 </script>
 
 <template>
+  <h1>Meetings</h1>
+  <ul>
+    <li v-for="meeting in meetings" :key="meeting.id">
+      {{ meeting.name }}
+    </li>
+  </ul>
   <WelcomeItem>
     <template #icon>
       <DocumentationIcon />
