@@ -5,6 +5,7 @@ const express = require('express')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
+const cors = require('cors')
 
 require('./database-connection.js')
 
@@ -13,6 +14,9 @@ const usersRouter = require('./routes/users.js')
 const meetingsRouter = require('./routes/meetings.js')
 
 const app = express()
+
+// CORS
+app.use(cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
