@@ -11,6 +11,10 @@ export const useMeetingStore = defineStore('meeting', {
     async fetchMeetings() {
       const response = await axios.get('/meetings')
       return response.data
+    },
+    async fetchMeeting(id) {
+      const response = await axios.get(`/meetings/${id}`)
+      return response.data
     }
   }
 })
