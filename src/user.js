@@ -57,6 +57,16 @@ class User {
 
     return year - this.age
   }
+
+  static create({ name, age }) {
+    const newUser = new User(name, age)
+
+    User.list.push(newUser)
+
+    return newUser
+  }
+
+  static list = []
 }
 
 module.exports = User
