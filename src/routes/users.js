@@ -23,4 +23,24 @@ router.post('/', function (req, res, next) {
   res.send(newUser)
 })
 
+// update a user
+router.put('/:userName', function (req, res, next) {
+  const { userName } = req.params
+  const { name, age } = req.body
+  const user = User.list.find(user => user.name === userName)
+  user.name = name
+  user.age = age
+
+  res.send(user)
+})
+
+// delete a user
+router.delete('/:userName', function (req, res, next) {
+  const { userName } = req.params
+  const userIndex = User.list.findIndex(user => user.name === userName)
+  User.list.splice(userIndex, 1)
+
+  res.sendStatus(200)
+})
+
 module.exports = router

@@ -11,10 +11,6 @@ async function main() {
 
   // console.log('numan: ', numan.data)
 
-  const allUsers = await axios.get('/users')
-  await axios.get('/users/mehmet')
-  // console.log('allUsers: ', allUsers.data)
-
   const egesMeeting = await axios.post('/meetings', {
     name: 'eges meeting',
     location: 'Istanbul',
@@ -22,7 +18,7 @@ async function main() {
     description: 'Meeting for JS101 lecture',
   })
 
-  console.log('egesMeeting: ', egesMeeting.data)
+  // console.log('egesMeeting: ', egesMeeting.data)
 
   const preetsBdayParty = await axios.post('/meetings', {
     name: 'Preets Bday Party',
@@ -31,7 +27,16 @@ async function main() {
     description: 'You are all welcome',
   })
 
-  console.log('preetsBdayParty: ', preetsBdayParty.data)
+  // console.log('preetsBdayParty: ', preetsBdayParty.data)
+
+  const updatedNuman = await axios.put('/users/numan', { name: 'Selman', age: 35 })
+  // console.log('updatedNuman: ', updatedNuman.data)
+
+  //delete numan
+  await axios.delete('/users/Selman')
+
+  const allUsers = await axios.get('/users')
+  console.log('allUsers: ', allUsers.data)
 }
 
 main()
