@@ -39,6 +39,14 @@ async function main() {
   //delete updatedUser
   await axios.delete('/users/updated user')
 
+  // numan joins eges meeting
+  await axios.post(`/meetings/eges meeting/attendees`, {
+    userName: 'numan',
+  })
+
+  //numan leaves eges meeting
+  await axios.delete(`/meetings/eges meeting/attendees/numan`)
+
   const allUsers = await axios.get('/users')
   console.log('allUsers: ', allUsers.data)
 }

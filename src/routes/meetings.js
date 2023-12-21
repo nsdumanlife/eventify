@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Meeting = require('../meeting')
+const User = require('../user')
 
 /* GET meetings listing. */
 router.get('/', function (req, res, next) {
@@ -28,6 +29,28 @@ router.post('/', function (req, res, next) {
     description: newMeeting.description,
   })
 })
+
+// user joins a meeting
+router.post('/:meetingName/attendees', function (req, res, next) {
+  const { meetingName } = req.params
+  const { userName } = req.body
+  const meeting = Meeting.list.find(meeting => meeting.name === meetingName)
+  const user = User.list.find(user => user.name === userName)
+
+  user.joinMeeting(meeting)
+
+  res.send({ name: meeting.name, attendees: meeting.attendees.map(attendee => attendee.name) })
+})
+
+// user leaves a meeting
+router.delete('/:meetingName/attendees/:userName', function (req, res, next) {
+  const { meetingName, userName } = req.params
+  const meeting = Meeting.list.find(meeting => meeting.name === meetingName)
+  const user = User.list.find(user => user.name === userName)
+
+  user.leaveMeeting(meeting)
+
+  res.send({ name: meeting.name, attendees: meeting.attendees.map(attendee => attendee.name) })
 })
 
 module.exports = router
