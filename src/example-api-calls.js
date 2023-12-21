@@ -16,6 +16,7 @@ async function main() {
     location: 'Istanbul',
     date: '12.12.2023',
     description: 'Meeting for JS101 lecture',
+    userName: 'ege',
   })
 
   // console.log('egesMeeting: ', egesMeeting.data)
@@ -25,6 +26,7 @@ async function main() {
     location: 'Hamburg',
     date: '10.12.2023',
     description: 'You are all welcome',
+    userName: 'numan',
   })
 
   // console.log('preetsBdayParty: ', preetsBdayParty.data)
