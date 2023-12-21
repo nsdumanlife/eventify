@@ -4,7 +4,9 @@ const User = require('../user')
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-  res.send(User.list)
+  res.send(
+    User.list.map(user => ({ name: user.name, age: user.age, meetings: user.meetings.map(meeting => meeting.name) }))
+  )
 })
 
 // get a single user
@@ -31,7 +33,7 @@ router.put('/:userName', function (req, res, next) {
   user.name = name
   user.age = age
 
-  res.send(user)
+  res.send({ name: user.name, age: user.age, meetings: user.meetings.map(meeting => meeting.name) })
 })
 
 // delete a user
