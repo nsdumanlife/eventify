@@ -9,6 +9,8 @@ async function main() {
 
   const ege = await axios.post('/users', { name: 'ege', age: 18 })
 
+  const userForUpdateAndDelete = await axios.post('/users', { name: 'userForUpdateAndDelete', age: 18 })
+
   // console.log('numan: ', numan.data)
 
   const egesMeeting = await axios.post('/meetings', {
@@ -31,11 +33,11 @@ async function main() {
 
   // console.log('preetsBdayParty: ', preetsBdayParty.data)
 
-  const updatedNuman = await axios.put('/users/numan', { name: 'Selman', age: 35 })
-  // console.log('updatedNuman: ', updatedNuman.data)
+  const updatedUser = await axios.put('/users/userForUpdateAndDelete', { name: 'updated user', age: 22 })
+  // console.log('updatedUser: ', updatedUser.data)
 
-  //delete numan
-  await axios.delete('/users/Selman')
+  //delete updatedUser
+  await axios.delete('/users/updated user')
 
   const allUsers = await axios.get('/users')
   console.log('allUsers: ', allUsers.data)
