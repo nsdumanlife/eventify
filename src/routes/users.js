@@ -28,12 +28,18 @@ router.post('/', function (req, res, next) {
 // update a user
 router.put('/:userName', function (req, res, next) {
   const { userName } = req.params
-  const { name, age } = req.body
-  const user = User.list.find(user => user.name === userName)
-  user.name = name
-  user.age = age
+  const { newValues } = req.body
+  const userIndex = User.list.findIndex(user => user.name === userName)
 
-  res.send({ name: user.name, age: user.age, meetings: user.meetings.map(meeting => meeting.name) })
+  const updatedUser = { ...User.list[userIndex], ...newValues }
+
+  User.list.splice(userIndex, 1, updatedUser)
+
+  res.send({
+    name: updatedUser.name,
+    age: updatedUser.age,
+    meetings: updatedUser.meetings.map(meeting => meeting.name),
+  })
 })
 
 // delete a user
