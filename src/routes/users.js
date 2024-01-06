@@ -51,4 +51,21 @@ router.delete('/:userName', function (req, res, next) {
   res.sendStatus(200)
 })
 
+// get all meetings of a user
+router.get('/:userName/meetings', function (req, res, next) {
+  const { userName } = req.params
+  const user = User.list.find(user => user.name === userName)
+
+  res.send(
+    user.meetings.map(meeting => ({
+      name: meeting.name,
+      location: meeting.location,
+      date: meeting.date,
+      description: meeting.description,
+    }))
+  )
+})
+
+// get a single meeting of a user
+
 module.exports = router
