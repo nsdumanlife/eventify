@@ -18,6 +18,9 @@ class User {
     this.meetings.push(newMeeting)
     newMeeting.attendees.push(this)
 
+    await this.save()
+    await newMeeting.save()
+
     return newMeeting
   }
 
