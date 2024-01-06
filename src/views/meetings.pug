@@ -1,0 +1,12 @@
+extends layout
+
+block content
+
+  h1 Meetings
+  ul
+    each meeting in meetings
+      li
+        a(href=`/meetings/${meeting.name}`) #{meeting.name}
+        p Date: #{meeting.date}
+        p Location: #{meeting.location}
+        p Number of attendees: #{meeting.attendees.length}
