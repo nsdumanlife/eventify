@@ -4,6 +4,9 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 
+require('dotenv').config()
+require('./database-connection')
+
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
 const meetingsRouter = require('./routes/meetings')
