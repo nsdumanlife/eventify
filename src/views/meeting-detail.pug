@@ -1,0 +1,17 @@
+extends layout
+
+block content
+
+  h2 #{meeting.name}
+  p Date: #{meeting.date}
+  p Location: #{meeting.location}
+  p Number of attendees: #{meeting.attendees.length}
+
+  h3 Description
+  p #{meeting.description}
+
+  h3 Attendees
+  ul
+    each attendee in meeting.attendees
+      li
+        p #{attendee.name}
