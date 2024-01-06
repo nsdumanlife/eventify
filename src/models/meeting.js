@@ -1,13 +1,13 @@
+const mongoose = require('mongoose')
+
+const meetingSchema = new mongoose.Schema({
+  name: String,
+  location: String,
+  date: String,
+  description: String,
+  attendees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+})
 class Meeting {
-  attendees = []
-
-  constructor(name, location, date, description) {
-    this.name = name
-    this.location = location
-    this.date = date
-    this.description = description
-  }
-
   static create({ name, location, date, description }) {
     const newMeeting = new Meeting(name, location, date, description)
 
@@ -19,4 +19,4 @@ class Meeting {
   static list = []
 }
 
-module.exports = Meeting
+module.exports = mongoose.model('Meeting', meetingSchema)

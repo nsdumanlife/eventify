@@ -37,9 +37,9 @@ router.get('/:meetingName', function (req, res, next) {
 })
 
 // create a new meeting
-router.post('/', function (req, res, next) {
+router.post('/', async function (req, res, next) {
   const { name, location, date, description, userName } = req.body
-  const user = User.list.find(user => user.name === userName)
+  const user = await User.findOne({ name: userName })
   const newMeeting = user.createMeeting(name, location, date, description)
 
   res.send({

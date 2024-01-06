@@ -12,8 +12,8 @@ class User {
     this.meetings.push(meeting)
   }
 
-  createMeeting(name, location, date, description) {
-    const newMeeting = Meeting.create({ name, location, date, description })
+  async createMeeting(name, location, date, description) {
+    const newMeeting = await Meeting.create({ name, location, date, description })
 
     this.meetings.push(newMeeting)
     newMeeting.attendees.push(this)
@@ -36,13 +36,6 @@ class User {
     this.meetings.splice(indexOfMeetingRequestedToLeave, 1)
   }
 
-  // get secret() {
-  //   return this.#secret
-  // }
-  // set secret(newValue) {
-  //   return (this.#secret = newValue)
-  // }
-
   get detailsOfUser() {
     return `Name of the user is ${this.name} and its age is ${this.age}`
   }
@@ -64,5 +57,7 @@ class User {
 
   static list = []
 }
+
+userSchema.loadClass(User)
 
 module.exports = mongoose.model('User', userSchema)
