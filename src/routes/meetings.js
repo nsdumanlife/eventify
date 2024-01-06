@@ -5,7 +5,18 @@ const User = require('../user')
 
 /* GET meetings listing. */
 router.get('/', function (req, res, next) {
-  res.send(Meeting.list)
+  if (req.query.view === 'json') {
+    return res.send(
+      Meeting.list.map(meeting => ({
+        name: meeting.name,
+        location: meeting.location,
+        date: meeting.date,
+        attendees: meeting.attendees.map(attendee => attendee.name),
+      }))
+    )
+  }
+
+  res.render('meetings', { meetings: Meeting.list })
 })
 
 // get a single meeting
@@ -13,7 +24,16 @@ router.get('/:meetingName', function (req, res, next) {
   const { meetingName } = req.params
   const meeting = Meeting.list.find(meeting => meeting.name === meetingName)
 
-  res.send(meeting)
+  if (req.query.view === 'json') {
+    return res.send({
+      name: meeting.name,
+      location: meeting.location,
+      date: meeting.date,
+      attendees: meeting.attendees.map(attendee => attendee.name),
+    })
+  }
+
+  res.render('meeting-detail', { meeting })
 })
 
 // create a new meeting
