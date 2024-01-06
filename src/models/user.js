@@ -1,16 +1,12 @@
 const Meeting = require('./meeting')
+const mongoose = require('mongoose')
 
+const userSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  meetings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meeting' }],
+})
 class User {
-  meetings = []
-  // #secret = 'this is a secret'
-
-  constructor(name, age) {
-    this.name = name
-    this.age = age
-    // this.#secret = 'this is a secret'
-    // this.meetings = []
-  }
-
   joinMeeting(meeting) {
     meeting.attendees.push(this)
     this.meetings.push(meeting)
@@ -69,4 +65,4 @@ class User {
   static list = []
 }
 
-module.exports = User
+module.exports = mongoose.model('User', userSchema)
