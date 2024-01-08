@@ -63,12 +63,12 @@ router.post('/:meetingName/attendees', async function (req, res, next) {
 })
 
 // user leaves a meeting
-router.delete('/:meetingName/attendees/:userName', function (req, res, next) {
+router.delete('/:meetingName/attendees/:userName', async function (req, res, next) {
   const { meetingName, userName } = req.params
-  const meeting = Meeting.list.find(meeting => meeting.name === meetingName)
-  const user = User.list.find(user => user.name === userName)
+  const meeting = await Meeting.findOne({ name: meetingName })
+  const user = await User.findOne({ name: userName })
 
-  user.leaveMeeting(meeting)
+  await user.leaveMeeting(meeting)
 
   res.send({ name: meeting.name, attendees: meeting.attendees.map(attendee => attendee.name) })
 })

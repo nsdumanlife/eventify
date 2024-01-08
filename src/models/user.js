@@ -29,19 +29,14 @@ class User {
     return newMeeting
   }
 
-  leaveMeeting(meetingRequestedToLeave) {
-    // meetingRequestedToLeave.attendees = meetingRequestedToLeave.attendees.filter(
-    //   attendee => attendee.name !== this.name
-    // )
-    // this.meetings = this.meetings.filter(meeting => meeting.name !== meetingRequestedToLeave.name)
+  async leaveMeeting(meetingRequestedToLeave) {
+    this.meetings.pull(meetingRequestedToLeave)
+    meetingRequestedToLeave.attendees.pull(this)
 
-    const indexOfUser = meetingRequestedToLeave.attendees.findIndex(attendee => attendee.name === this.name)
-    meetingRequestedToLeave.attendees.splice(indexOfUser, 1)
+    await meetingRequestedToLeave.save()
+    await this.save()
 
-    const indexOfMeetingRequestedToLeave = this.meetings.findIndex(
-      meeting => meeting.name === meetingRequestedToLeave.name
-    )
-    this.meetings.splice(indexOfMeetingRequestedToLeave, 1)
+    return meetingRequestedToLeave
   }
 
   get detailsOfUser() {
@@ -54,16 +49,6 @@ class User {
 
     return year - this.age
   }
-
-  static create({ name, age }) {
-    const newUser = new User(name, age)
-
-    User.list.push(newUser)
-
-    return newUser
-  }
-
-  static list = []
 }
 
 userSchema.loadClass(User)
