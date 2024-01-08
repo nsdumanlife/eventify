@@ -1,10 +1,11 @@
 const Meeting = require('./meeting')
 const mongoose = require('mongoose')
+const autopopulate = require('mongoose-autopopulate')
 
 const userSchema = new mongoose.Schema({
   name: String,
   age: Number,
-  meetings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meeting' }],
+  meetings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meeting', autopopulate: true }],
 })
 class User {
   async joinMeeting(meeting) {
@@ -52,5 +53,6 @@ class User {
 }
 
 userSchema.loadClass(User)
+userSchema.plugin(autopopulate)
 
 module.exports = mongoose.model('User', userSchema)
