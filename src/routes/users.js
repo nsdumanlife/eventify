@@ -8,9 +8,9 @@ router.get('/', async function (req, res, next) {
 })
 
 // get a single user
-router.get('/:userName', function (req, res, next) {
+router.get('/:userName', async function (req, res, next) {
   const { userName } = req.params
-  const user = User.list.find(user => user.name === userName)
+  const user = await User.findOne({ name: userName })
 
   res.send(user)
 })
