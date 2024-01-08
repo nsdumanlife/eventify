@@ -4,33 +4,22 @@ const Meeting = require('../models/meeting')
 const User = require('../models/user')
 
 /* GET meetings listing. */
-router.get('/', function (req, res, next) {
+router.get('/', async function (req, res, next) {
+  const allMeetings = await Meeting.find()
   if (req.query.view === 'json') {
-    return res.send(
-      Meeting.list.map(meeting => ({
-        name: meeting.name,
-        location: meeting.location,
-        date: meeting.date,
-        attendees: meeting.attendees.map(attendee => attendee.name),
-      }))
-    )
+    return res.send(allMeetings)
   }
 
-  res.render('meetings', { meetings: Meeting.list })
+  res.render('meetings', { meetings: allMeetings })
 })
 
 // get a single meeting
-router.get('/:meetingName', function (req, res, next) {
+router.get('/:meetingName', async function (req, res, next) {
   const { meetingName } = req.params
-  const meeting = Meeting.list.find(meeting => meeting.name === meetingName)
+  const meeting = await Meeting.findOne({ name: meetingName })
 
   if (req.query.view === 'json') {
-    return res.send({
-      name: meeting.name,
-      location: meeting.location,
-      date: meeting.date,
-      attendees: meeting.attendees.map(attendee => attendee.name),
-    })
+    return res.send(meeting)
   }
 
   res.render('meeting-detail', { meeting })
