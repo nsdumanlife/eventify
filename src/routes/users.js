@@ -26,20 +26,13 @@ router.post('/', async function (req, res, next) {
 })
 
 // update a user
-router.put('/:userName', function (req, res, next) {
+router.put('/:userName', async function (req, res, next) {
   const { userName } = req.params
   const { newValues } = req.body
-  const userIndex = User.list.findIndex(user => user.name === userName)
 
-  const updatedUser = { ...User.list[userIndex], ...newValues }
+  const updatedUser = await User.findOneAndUpdate({ name: userName }, { $set: newValues }, { new: true })
 
-  User.list.splice(userIndex, 1, updatedUser)
-
-  res.send({
-    name: updatedUser.name,
-    age: updatedUser.age,
-    meetings: updatedUser.meetings.map(meeting => meeting.name),
-  })
+  res.send(updatedUser)
 })
 
 // delete a user
