@@ -7,9 +7,14 @@ const userSchema = new mongoose.Schema({
   meetings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meeting' }],
 })
 class User {
-  joinMeeting(meeting) {
+  async joinMeeting(meeting) {
     meeting.attendees.push(this)
     this.meetings.push(meeting)
+
+    await meeting.save()
+    await this.save()
+
+    return meeting
   }
 
   async createMeeting(name, location, date, description) {

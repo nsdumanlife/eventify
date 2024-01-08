@@ -51,13 +51,13 @@ router.post('/', async function (req, res, next) {
 })
 
 // user joins a meeting
-router.post('/:meetingName/attendees', function (req, res, next) {
+router.post('/:meetingName/attendees', async function (req, res, next) {
   const { meetingName } = req.params
   const { userName } = req.body
-  const meeting = Meeting.list.find(meeting => meeting.name === meetingName)
-  const user = User.list.find(user => user.name === userName)
+  const meeting = await Meeting.findOne({ name: meetingName })
+  const user = await User.findOne({ name: userName })
 
-  user.joinMeeting(meeting)
+  await user.joinMeeting(meeting)
 
   res.send({ name: meeting.name, attendees: meeting.attendees.map(attendee => attendee.name) })
 })
