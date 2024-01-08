@@ -1,10 +1,14 @@
-// const User = require('./user')
+const User = require('./models/user')
+const Meeting = require('./models/meeting')
 
 const axios = require('axios')
 
 axios.defaults.baseURL = 'http://localhost:3000'
 
 async function main() {
+  await axios.delete('/db')
+  console.log('All records deleted successfully.')
+
   const numan = await axios.post('/users', { name: 'numan', age: 30 })
 
   const ege = await axios.post('/users', { name: 'ege', age: 18 })
@@ -33,25 +37,36 @@ async function main() {
 
   // console.log('preetsBdayParty: ', preetsBdayParty.data)
 
-  const updatedUser = await axios.put('/users/userForUpdateAndDelete', { name: 'updated user', age: 22 })
+  const updatedUser = await axios.put('/users/userForUpdateAndDelete', {
+    newValues: { name: 'updated user', age: 100 },
+  })
   // console.log('updatedUser: ', updatedUser.data)
 
   //delete updatedUser
   await axios.delete('/users/updated user')
 
   // numan joins eges meeting
-  await axios.post(`/meetings/eges meeting/attendees`, {
-    userName: 'numan',
-  })
+  // await axios.post(`/meetings/eges meeting/attendees`, {
+  //   userName: 'numan',
+  // })
 
   //numan leaves eges meeting
   await axios.delete(`/meetings/eges meeting/attendees/numan`)
 
-  const allUsers = await axios.get('/users')
-  console.log('allUsers: ', allUsers.data)
+  // // get all meetings of numan
+  // const numansMeetings = await axios.get('/users/numan/meetings')
+  // // console.log('numansMeetings: ', numansMeetings.data)
+
+  // const allUsers = await axios.get('/users')
+  // // console.log('allUsers: ', allUsers.data)
+
+  // const allMeetings = await axios.get('/meetings?view=json')
+  // console.log('allMeetings: ', allMeetings.data)
 }
 
-main()
+main().catch(error => {
+  console.log('error: ', error.message, error.stack)
+})
 
 // axios
 //   .post('http://localhost:3000/users', { name: 'John Doe', age: 30 })
