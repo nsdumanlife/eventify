@@ -22,7 +22,7 @@ async function main() {
     location: 'Istanbul',
     date: '12.12.2023',
     description: 'Meeting for JS101 lecture',
-    userName: 'ege',
+    userId: ege.data._id,
   })
 
   // console.log('egesMeeting: ', egesMeeting.data)
@@ -32,26 +32,26 @@ async function main() {
     location: 'Hamburg',
     date: '10.12.2023',
     description: 'You are all welcome',
-    userName: 'numan',
+    userId: numan.data._id,
   })
 
   // console.log('preetsBdayParty: ', preetsBdayParty.data)
 
-  const updatedUser = await axios.put('/users/userForUpdateAndDelete', {
+  const updatedUser = await axios.put(`/users/${userForUpdateAndDelete.data._id}`, {
     newValues: { name: 'updated user', age: 100 },
   })
   // console.log('updatedUser: ', updatedUser.data)
 
   //delete updatedUser
-  await axios.delete('/users/updated user')
+  await axios.delete(`/users/${updatedUser.data._id}`)
 
   // numan joins eges meeting
-  // await axios.post(`/meetings/eges meeting/attendees`, {
-  //   userName: 'numan',
-  // })
+  await axios.post(`/meetings/${egesMeeting.data._id}/attendees`, {
+    userId: numan.data._id,
+  })
 
   //numan leaves eges meeting
-  await axios.delete(`/meetings/eges meeting/attendees/numan`)
+  await axios.delete(`/meetings/${egesMeeting.data._id}/attendees/${numan.data._id}`)
 
   // // get all meetings of numan
   // const numansMeetings = await axios.get('/users/numan/meetings')

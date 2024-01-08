@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Meeting = require('../models/meeting')
 const User = require('../models/user')
+const meeting = require('../models/meeting')
 
 /* GET meetings listing. */
 router.get('/', async function (req, res, next) {
@@ -14,9 +15,9 @@ router.get('/', async function (req, res, next) {
 })
 
 // get a single meeting
-router.get('/:meetingName', async function (req, res, next) {
-  const { meetingName } = req.params
-  const meeting = await Meeting.findOne({ name: meetingName })
+router.get('/:meetingId', async function (req, res, next) {
+  const { meetingId } = req.params
+  const meeting = await Meeting.findById(meetingId)
 
   if (req.query.view === 'json') {
     return res.send(meeting)
@@ -27,39 +28,34 @@ router.get('/:meetingName', async function (req, res, next) {
 
 // create a new meeting
 router.post('/', async function (req, res, next) {
-  const { name, location, date, description, userName } = req.body
-  const user = await User.findOne({ name: userName })
+  const { name, location, date, description, userId } = req.body
+  const user = await User.findById(userId)
   const newMeeting = await user.createMeeting(name, location, date, description)
 
-  res.send({
-    name: newMeeting.name,
-    location: newMeeting.location,
-    date: newMeeting.date,
-    description: newMeeting.description,
-  })
+  res.send(newMeeting)
 })
 
 // user joins a meeting
-router.post('/:meetingName/attendees', async function (req, res, next) {
-  const { meetingName } = req.params
-  const { userName } = req.body
-  const meeting = await Meeting.findOne({ name: meetingName })
-  const user = await User.findOne({ name: userName })
+router.post('/:meetingId/attendees', async function (req, res, next) {
+  const { meetingId } = req.params
+  const { userId } = req.body
+  const meeting = await Meeting.findById(meetingId)
+  const user = await User.findById(userId)
 
   await user.joinMeeting(meeting)
 
-  res.send({ name: meeting.name, attendees: meeting.attendees.map(attendee => attendee.name) })
+  res.send(meeting)
 })
 
 // user leaves a meeting
-router.delete('/:meetingName/attendees/:userName', async function (req, res, next) {
-  const { meetingName, userName } = req.params
-  const meeting = await Meeting.findOne({ name: meetingName })
-  const user = await User.findOne({ name: userName })
+router.delete('/:meetingId/attendees/:userId', async function (req, res, next) {
+  const { meetingId, userId } = req.params
+  const meeting = await Meeting.findById(meetingId)
+  const user = await User.findById(userId)
 
   await user.leaveMeeting(meeting)
 
-  res.send({ name: meeting.name, attendees: meeting.attendees.map(attendee => attendee.name) })
+  res.send(meeting)
 })
 
 module.exports = router

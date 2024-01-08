@@ -8,9 +8,9 @@ router.get('/', async function (req, res, next) {
 })
 
 // get a single user
-router.get('/:userName', async function (req, res, next) {
-  const { userName } = req.params
-  const user = await User.findOne({ name: userName })
+router.get('/:userId', async function (req, res, next) {
+  const { userId } = req.params
+  const user = await User.findById(userId)
 
   res.send(user)
 })
@@ -24,28 +24,28 @@ router.post('/', async function (req, res, next) {
 })
 
 // update a user
-router.put('/:userName', async function (req, res, next) {
-  const { userName } = req.params
+router.put('/:userId', async function (req, res, next) {
+  const { userId } = req.params
   const { newValues } = req.body
 
-  const updatedUser = await User.findOneAndUpdate({ name: userName }, { $set: newValues }, { new: true })
+  const updatedUser = await User.findByIdAndUpdate(userId, { $set: newValues }, { new: true })
 
   res.send(updatedUser)
 })
 
 // delete a user
-router.delete('/:userName', async function (req, res, next) {
-  const { userName } = req.params
+router.delete('/:userId', async function (req, res, next) {
+  const { userId } = req.params
 
-  await User.findOneAndDelete({ name: userName })
+  await User.findByIdAndDelete(userId)
 
   res.sendStatus(200)
 })
 
 // get all meetings of a user
-router.get('/:userName/meetings', async function (req, res, next) {
-  const { userName } = req.params
-  const user = await User.findOne({ name: userName })
+router.get('/:userId/meetings', async function (req, res, next) {
+  const { userId } = req.params
+  const user = await User.findById(userId)
 
   res.send(user.meetings)
 })
