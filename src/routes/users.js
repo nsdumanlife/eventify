@@ -3,10 +3,8 @@ const router = express.Router()
 const User = require('../models/user')
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send(
-    User.list.map(user => ({ name: user.name, age: user.age, meetings: user.meetings.map(meeting => meeting.name) }))
-  )
+router.get('/', async function (req, res, next) {
+  res.send(await User.find())
 })
 
 // get a single user
