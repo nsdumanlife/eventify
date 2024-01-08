@@ -36,10 +36,10 @@ router.put('/:userName', async function (req, res, next) {
 })
 
 // delete a user
-router.delete('/:userName', function (req, res, next) {
+router.delete('/:userName', async function (req, res, next) {
   const { userName } = req.params
-  const userIndex = User.list.findIndex(user => user.name === userName)
-  User.list.splice(userIndex, 1)
+
+  await User.findOneAndDelete({ name: userName })
 
   res.sendStatus(200)
 })
