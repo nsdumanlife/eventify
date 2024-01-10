@@ -1,0 +1,18 @@
+# install an operating system and node.js
+FROM node:18-alpine3.16
+
+ENV NODE_ENV=production
+
+WORKDIR /app
+
+#add project files
+ADD package.json package-lock.json ./
+
+#run npm install
+RUN npm install --production
+
+ADD bin ./bin
+ADD src ./src
+
+#run npm start
+CMD [ "npm" , "start" ]
