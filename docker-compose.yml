@@ -1,0 +1,21 @@
+services:
+  api:
+    image: meeting-api
+    build: .
+    depends_on:
+      - mongodb
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src:/app/src
+    env_file:
+      - ./.env
+    environment:
+      - MONGODB_CONNECTION_STRING=mongodb://mongodb:27017/bungaa
+
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data:/data/db
