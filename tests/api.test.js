@@ -2,6 +2,9 @@ const request = require('supertest')
 const app = require('../src/app')
 
 describe('API tests', () => {
+  beforeEach(async () => {
+    await request(app).delete('/db')
+  })
 
   it('should create a user', async () => {
     const name = 'numan'
