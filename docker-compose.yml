@@ -8,10 +8,11 @@ services:
       - 3000:3000
     volumes:
       - ./src:/app/src
+      - ./tests:/app/tests
     env_file:
       - ./.env
     environment:
-      - MONGODB_CONNECTION_STRING=mongodb://mongodb:27017/bungaa
+      - MONGODB_CONNECTION_STRING=mongodb://mongodb:27017/meeting-app
 
   mongodb:
     image: mongo
