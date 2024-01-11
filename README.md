@@ -1,42 +1,61 @@
 [![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-7f7980b617ed060a017424585567c406b6ee15c891e84e1186181d67ecf80aa0.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=11451467)
-# Coyotiv School of Software Engineering
 
-## Node & PlantUML Starter Template
+# Meeting App
 
 ---
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Now you can directly work in your browser!
-
 ## Getting started
 
-### Node / JS
+- Install dependencies
 
-> **Note:**
->
-> - _There is an **index.js** file located under the \*\*\_src_\*\* folder\_
-> - _The **index.js** file, it's already linked with the debugger in your **launch.json**_
+```sh
+  npm install
+```
 
-To run the **index.js** file:
+### Start development server:
 
-- with **_node_**, copy and enter one of the following commands on your terminal:
+- with Node.js:
 
   ```sh
   npm start
   ```
 
-  or:
-
-  ```sh
-  node src/index.js
-  ```
-
-- in development mode that restarts every time you save a file:
+- with nodemon:
 
   ```sh
   npm run dev
   ```
+
+- with Docker:
+
+  ```sh
+  docker-compose up --build
+  ```
+
+### Run tests:
+
+> **Note:**
+>
+> Before running the commands below, be aware that app and mongo container should be active
+>
+> To activate them:
+>
+> - Enter in your terminal:
+>   docker-compose up
+> - Or if you need to rebuild your image, enter in your terminal :
+>   docker-compose up --build
+
+```sh
+docker-compose run api npm run test
+```
+
+or passing a env variable with the MONGODB_CONNECTION_STRING
+
+```sh
+docker-compose run -e MONGODB_CONNECTION_STRING=mongodb://mongodb/meeting-test api npm run test
+```
 
 ### PlantUML
 
