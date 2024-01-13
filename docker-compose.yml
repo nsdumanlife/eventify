@@ -1,18 +1,31 @@
 services:
   api:
     image: meeting-api
-    build: .
+    build:
+      context: backend
+      dockerfile: Dockerfile
     depends_on:
       - mongodb
     ports:
       - 3000:3000
     volumes:
-      - ./src:/app/src
-      - ./tests:/app/tests
+      - ./backend/src:/app/src
+      - ./backend/tests:/app/tests
     env_file:
-      - ./.env
+      - ./backend/.env
     environment:
       - MONGODB_CONNECTION_STRING=mongodb://mongodb:27017/meeting-app
+
+  frontend:
+    image: meeting-frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - 5173:5173
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
 
   mongodb:
     image: mongo
