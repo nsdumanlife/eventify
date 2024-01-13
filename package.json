@@ -10,7 +10,7 @@
 		"eslint:check": "npx eslint .",
 		"eslint:fix": "npx eslint --fix .",
 		"test": "DOTENV_CONFIG_PATH=./.env.test.local jest --detectOpenHandles --verbose --forceExit",
-		"test:watch": "DOTENV_CONFIG_PATH=./.env.test.local jest --watchAll --detectOpenHandles --verbose --forceExit",
+		"test:watch": "DOTENV_CONFIG_PATH=./.env.test.local jest --watchAll --coverage --detectOpenHandles --verbose --forceExit",
 		"test:coverage": "DOTENV_CONFIG_PATH=./.env.test.local jest --coverage --detectOpenHandles --verbose --forceExit"
 	},
 	"devDependencies": {
@@ -40,6 +40,9 @@
 	"jest": {
 		"setupFiles": [
 			"dotenv/config"
+		],
+		"setupFilesAfterEnv": [
+			"./tests/setup.js"
 		]
 	}
 }
