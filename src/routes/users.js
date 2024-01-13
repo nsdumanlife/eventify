@@ -12,6 +12,10 @@ router.get('/:userId', async function (req, res, next) {
   const { userId } = req.params
   const user = await User.findById(userId)
 
+  if (!user) {
+    return next({ status: 404, message: 'User not found' })
+  }
+
   res.send(user)
 })
 
@@ -46,6 +50,10 @@ router.delete('/:userId', async function (req, res, next) {
 router.get('/:userId/meetings', async function (req, res, next) {
   const { userId } = req.params
   const user = await User.findById(userId)
+
+  if (!user) {
+    return next({ status: 404, message: 'User not found' })
+  }
 
   res.send(user.meetings)
 })

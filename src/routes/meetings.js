@@ -7,11 +7,10 @@ const meeting = require('../models/meeting')
 /* GET meetings listing. */
 router.get('/', async function (req, res, next) {
   const allMeetings = await Meeting.find()
-  if (req.query.view === 'json') {
-    return res.send(allMeetings)
-  }
 
-  res.render('meetings', { meetings: allMeetings })
+  if (!allMeetings) return next({ status: 404, message: 'Meetings not found' })
+
+  res.send(allMeetings)
 })
 
 // get a single meeting
@@ -19,18 +18,19 @@ router.get('/:meetingId', async function (req, res, next) {
   const { meetingId } = req.params
   const meeting = await Meeting.findById(meetingId)
 
-  if (req.query.view === 'json') {
-    return res.send(meeting)
-  }
+  if (!meeting) return next({ status: 404, message: 'Meeting not found' })
 
-  res.render('meeting-detail', { meeting })
+  res.send(meeting)
 })
 
 // create a new meeting
 router.post('/', async function (req, res, next) {
-  const { name, location, date, description, userId } = req.body
+  const { name, location, date, time, description, userId } = req.body
   const user = await User.findById(userId)
-  const newMeeting = await user.createMeeting(name, location, date, description)
+
+  if (!user) return next({ status: 404, message: 'User not found' })
+
+  const newMeeting = await user.createMeeting(name, location, date, time, description)
 
   res.send(newMeeting)
 })
@@ -40,18 +40,28 @@ router.post('/:meetingId/attendees', async function (req, res, next) {
   const { meetingId } = req.params
   const { userId } = req.body
   const meeting = await Meeting.findById(meetingId)
+
+  if (!meeting) return next({ status: 404, message: 'Meeting not found' })
+
   const user = await User.findById(userId)
 
-  await user.joinMeeting(meeting)
+  if (!user) return next({ status: 404, message: 'User not found' })
 
-  res.send(meeting)
+  const updatedMeeting = await user.joinMeeting(meeting)
+
+  res.send(updatedMeeting)
 })
 
 // user leaves a meeting
 router.delete('/:meetingId/attendees/:userId', async function (req, res, next) {
   const { meetingId, userId } = req.params
   const meeting = await Meeting.findById(meetingId)
+
+  if (!meeting) return next({ status: 404, message: 'Meeting not found' })
+
   const user = await User.findById(userId)
+
+  if (!user) return next({ status: 404, message: 'User not found' })
 
   await user.leaveMeeting(meeting)
 

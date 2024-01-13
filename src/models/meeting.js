@@ -2,9 +2,22 @@ const mongoose = require('mongoose')
 const autopopulate = require('mongoose-autopopulate')
 
 const meetingSchema = new mongoose.Schema({
-  name: String,
-  location: String,
-  date: String,
+  name: {
+    type: String,
+    required: true,
+  },
+  location: {
+    type: String,
+    default: 'Remote',
+  },
+  date: {
+    type: String,
+    required: true,
+  },
+  time: {
+    type: String,
+    required: true,
+  },
   description: String,
   attendees: [
     {
@@ -16,6 +29,7 @@ const meetingSchema = new mongoose.Schema({
     },
   ],
 })
+
 class Meeting {}
 
 meetingSchema.loadClass(Meeting)

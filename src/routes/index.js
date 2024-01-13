@@ -5,13 +5,14 @@ const User = require('../models/user')
 const Meeting = require('../models/meeting')
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Meeting App' })
-})
+// router.get('/', function (req, res, next) {
+//   res.render('index', { title: 'Meeting App' })
+// })
 
 router.delete('/db', async function (req, res, next) {
   await User.deleteMany({})
   await Meeting.deleteMany({})
+
   res.sendStatus(200)
 })
 

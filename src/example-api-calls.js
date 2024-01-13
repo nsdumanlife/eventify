@@ -51,7 +51,7 @@ async function main() {
   })
 
   //numan leaves eges meeting
-  await axios.delete(`/meetings/${egesMeeting.data._id}/attendees/${numan.data._id}`)
+  // await axios.delete(`/meetings/${egesMeeting.data._id}/attendees/${numan.data._id}`)
 
   // // get all meetings of numan
   // const numansMeetings = await axios.get('/users/numan/meetings')
@@ -76,6 +76,8 @@ main().catch(error => {
 //   .catch(error => {
 //     console.log('error: ', error)
 //   })
+
+// old code below this line, not used anymore
 
 // const numan = new User('numan', 30)
 // const ege = new User('Ege', 18)

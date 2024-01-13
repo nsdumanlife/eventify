@@ -3,7 +3,10 @@ const mongoose = require('mongoose')
 const autopopulate = require('mongoose-autopopulate')
 
 const userSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
   age: Number,
   meetings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meeting', autopopulate: true }],
 })
@@ -18,8 +21,8 @@ class User {
     return meeting
   }
 
-  async createMeeting(name, location, date, description) {
-    const newMeeting = await Meeting.create({ name, location, date, description })
+  async createMeeting(name, location, date, time, description) {
+    const newMeeting = await Meeting.create({ name, location, date, time, description })
 
     this.meetings.push(newMeeting)
     newMeeting.attendees.push(this)
@@ -40,16 +43,16 @@ class User {
     return meetingRequestedToLeave
   }
 
-  get detailsOfUser() {
-    return `Name of the user is ${this.name} and its age is ${this.age}`
-  }
+  // get detailsOfUser() {
+  //   return `Name of the user is ${this.name} and its age is ${this.age}`
+  // }
 
-  get yearOfBirth() {
-    const today = new Date()
-    const year = today.getFullYear()
+  // get yearOfBirth() {
+  //   const today = new Date()
+  //   const year = today.getFullYear()
 
-    return year - this.age
-  }
+  //   return year - this.age
+  // }
 }
 
 userSchema.loadClass(User)
