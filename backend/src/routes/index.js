@@ -16,4 +16,8 @@ router.delete('/db', async function (req, res, next) {
   res.sendStatus(200)
 })
 
+router.get('ping', function (req, res, next) {
+  res.send('pong')
+})
+
 module.exports = router
