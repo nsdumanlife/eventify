@@ -4,7 +4,8 @@ const User = require('../models/user')
 
 /* GET users listing. */
 router.get('/', async function (req, res, next) {
-  res.send(await User.find())
+  // res.send(await User.find())
+  res.send('hi')
 })
 
 // get a single user
