@@ -9,7 +9,7 @@
 		"dev": "nodemon bin/www",
 		"eslint:check": "npx eslint .",
 		"eslint:fix": "npx eslint --fix .",
-		"test": "DOTENV_CONFIG_PATH=./.env.test.local jest --detectOpenHandles --verbose --forceExit",
+		"test": "DOTENV_CONFIG_PATH=./.env.test.local NODE_OPTIONS='--experimental-vm-modules --experimental-specifier-resolution=node' jest --detectOpenHandles --verbose --forceExit",
 		"test:watch": "DOTENV_CONFIG_PATH=./.env.test.local jest --watchAll --coverage --detectOpenHandles --verbose --forceExit",
 		"test:coverage": "DOTENV_CONFIG_PATH=./.env.test.local jest --coverage --detectOpenHandles --verbose --forceExit"
 	},
