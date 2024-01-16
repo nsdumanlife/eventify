@@ -1,5 +1,5 @@
 services:
-  api:
+  backend:
     image: meeting-api
     build:
       context: backend
@@ -26,6 +26,8 @@ services:
     volumes:
       - ./frontend/src:/app/src
       - ./frontend/public:/app/public
+    env_file:
+      - ./frontend/.env
 
   mongodb:
     image: mongo
