@@ -18,20 +18,22 @@ async function main() {
   // console.log('numan: ', numan.data)
 
   const egesMeeting = await axios.post('/meetings', {
-    name: 'eges meeting',
+    name: 'Team Collaboration Workshop by Ege',
     location: 'Istanbul',
-    date: '12.12.2023',
-    description: 'Meeting for JS101 lecture',
+    date: '15.02.2024',
+    time: '14:00',
+    description: 'An interactive workshop to enhance team collaboration skills.',
     userId: ege.data._id,
   })
 
   // console.log('egesMeeting: ', egesMeeting.data)
 
   const preetsBdayParty = await axios.post('/meetings', {
-    name: 'Preets Bday Party',
+    name: 'Fiesta Fantastica: A Celebration of Life and Laughter!',
     location: 'Hamburg',
     date: '10.12.2023',
-    description: 'You are all welcome',
+    time: '18:00',
+    description: `🎉 You're Invited to a Spectacular Birthday Bash! 🎉 \n\n Join us for an unforgettable celebration as we mark another fabulous year of life and joy. It's time to party, laugh, and create wonderful memories together! \n 🎈 What to Expect: \n 🍰 **Delicious Treats:** Indulge in a variety of delectable sweets and treats that will satisfy your taste buds. \n 🎶 **Groovy Tunes:** Dance the night away to a fantastic playlist that caters to all music tastes. From timeless classics to the latest hits, we've got the beats covered. \n 📸 **Photo Booth Fun:** Capture the memories with our photo booth, complete with props and backdrops. Pose, smile, and make each snapshot a cherished memory. \n 🎂 **Cake Cutting Ceremony:** Witness the joy as we cut the birthday cake together. It's a moment of sweetness and celebration! \n 🥳 **Good Vibes Only:** Bring your positive energy, infectious smiles, and let's make this birthday party an absolute blast! \n We look forward to celebrating with you and creating unforgettable moments on this special day. Let's make it the best birthday bash ever! \n Cheers, ${numan.data.name}`,
     userId: numan.data._id,
   })
 
