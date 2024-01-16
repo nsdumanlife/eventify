@@ -1,5 +1,6 @@
 <script>
-import axios from 'axios'
+import { useMeetingStore } from '@/stores/meeting'
+import { mapActions } from 'pinia'
 
 export default {
   name: 'MeetingsView',
@@ -11,12 +12,13 @@ export default {
   },
   computed: {},
   methods: {
-    async fetchMeetings() {
-      this.meetings = (await axios.get('http://localhost:3000/meetings')).data
-    }
+    ...mapActions(useMeetingStore, ['fetchMeetings'])
+    // async fetchMeetings() {
+    //   this.meetings = (await axios.get('http://localhost:3000/meetings')).data
+    // }
   },
-  mounted() {
-    this.fetchMeetings()
+  async mounted() {
+    this.meetings = await this.fetchMeetings()
   }
 }
 </script>
@@ -26,7 +28,7 @@ export default {
     <h1>Meetings</h1>
     <ul>
       <li v-for="meeting in meetings" :key="meeting._id">
-        <router-link :to="{ name: 'meeting', params: { id: meeting._id } }">
+        <router-link :to="`/meeting/${meeting._id}`">
           {{ meeting.name }}
         </router-link>
       </li>
