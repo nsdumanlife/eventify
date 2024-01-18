@@ -67,6 +67,9 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
