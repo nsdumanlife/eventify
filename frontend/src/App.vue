@@ -12,14 +12,14 @@ export default {
   data() {
     return {}
   },
-  async mounted() {
-    await this.fetchUser()
-  },
   computed: {
     ...mapState(useAccountStore, ['user'])
   },
   methods: {
     ...mapActions(useAccountStore, ['fetchUser', 'logout'])
+  },
+  async mounted() {
+    await this.fetchUser()
   }
 }
 </script>
@@ -32,7 +32,7 @@ export default {
         <RouterLink to="/meetings">Meetings</RouterLink>
         <RouterLink v-if="!user" to="/login">Login</RouterLink>
         <RouterLink v-if="!user" to="/signup">Sign up</RouterLink>
-        <RouterLink v-if="user" to="/logout" @click="logout">Log out</RouterLink>
+        <a v-if="user" @click="logout">Log out</a>
       </nav>
       <p>Logged in as {{ user?.name }}</p>
     </div>
