@@ -8,6 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
+      "skipFiles": ["<node_internals>/**"],
       "envFile": "${workspaceFolder}/backend/.env",
       "program": "${workspaceFolder}/backend/bin/www"
     }
