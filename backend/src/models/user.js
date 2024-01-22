@@ -9,7 +9,15 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   age: Number,
-  meetings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meeting', autopopulate: true }],
+  meetings: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Meeting',
+      autopopulate: {
+        maxDepth: 1,
+      },
+    },
+  ],
 })
 class User {
   async joinMeeting(meeting) {
