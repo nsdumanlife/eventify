@@ -1,6 +1,7 @@
 const Meeting = require('./meeting')
 const mongoose = require('mongoose')
 const autopopulate = require('mongoose-autopopulate')
+const passportLocalMongoose = require('passport-local-mongoose')
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -8,7 +9,15 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   age: Number,
-  meetings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meeting', autopopulate: true }],
+  meetings: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Meeting',
+      autopopulate: {
+        maxDepth: 1,
+      },
+    },
+  ],
 })
 class User {
   async joinMeeting(meeting) {
@@ -57,5 +66,6 @@ class User {
 
 userSchema.loadClass(User)
 userSchema.plugin(autopopulate)
+userSchema.plugin(passportLocalMongoose, { usernameField: 'email' })
 
 module.exports = mongoose.model('User', userSchema)

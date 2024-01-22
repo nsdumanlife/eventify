@@ -1,5 +1,27 @@
-<script setup>
+<script>
+import { useAccountStore } from '@/stores/account'
+import { mapActions, mapState } from 'pinia'
 import { RouterLink, RouterView } from 'vue-router'
+
+export default {
+  name: 'App',
+  components: {
+    RouterLink,
+    RouterView
+  },
+  data() {
+    return {}
+  },
+  computed: {
+    ...mapState(useAccountStore, ['user'])
+  },
+  methods: {
+    ...mapActions(useAccountStore, ['fetchUser', 'logout'])
+  },
+  async mounted() {
+    await this.fetchUser()
+  }
+}
 </script>
 
 <template>
@@ -8,12 +30,17 @@ import { RouterLink, RouterView } from 'vue-router'
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/meetings">Meetings</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink v-if="!user" to="/login">Login</RouterLink>
+        <RouterLink v-if="!user" to="/signup">Sign up</RouterLink>
+        <a v-if="user" @click="logout">Log out</a>
       </nav>
+      <p>Logged in as {{ user?.name }}</p>
     </div>
   </header>
 
-  <RouterView />
+  <Suspense>
+    <RouterView />
+  </Suspense>
 </template>
 
 <style scoped>
