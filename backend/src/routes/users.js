@@ -33,6 +33,11 @@ router.put('/:userId', async function (req, res, next) {
   const { userId } = req.params
   const { newValues } = req.body
 
+  if (!req.user) return next({ status: 404, message: 'User not found' })
+
+  if (req.user._id.toString() !== userId)
+    return next({ status: 403, message: 'You are not allowed to update this user' })
+
   const updatedUser = await User.findByIdAndUpdate(userId, { $set: newValues }, { new: true })
 
   res.send(updatedUser)
@@ -41,6 +46,11 @@ router.put('/:userId', async function (req, res, next) {
 // delete a user
 router.delete('/:userId', async function (req, res, next) {
   const { userId } = req.params
+
+  if (!req.user) return next({ status: 404, message: 'User not found' })
+
+  if (req.user._id.toString() !== userId)
+    return next({ status: 403, message: 'You are not allowed to delete this user' })
 
   await User.findByIdAndDelete(userId)
 
